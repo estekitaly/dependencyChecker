@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -35,16 +36,17 @@ namespace ESTEK_DependencyChecker
             }
         }
 
-        public static Dictionary<string,Dictionary<string,bool>> AnalyzeFiles(IEnumerable<string> files, IEnumerable<string> dependencies)
+        public static ConcurrentDictionary<string, ConcurrentDictionary<string,bool>> AnalyzeFiles(IEnumerable<string> files, IEnumerable<string> dependencies)
         {
-            Dictionary<string, Dictionary<string, bool>> filesAnalyzed = new Dictionary<string, Dictionary<string, bool>>();
-            foreach (var item in files)
+            ConcurrentDictionary<string, ConcurrentDictionary<string, bool>> filesAnalyzed = new ConcurrentDictionary<string, ConcurrentDictionary<string, bool>>();
+            
+            Parallel.ForEach(files, item =>
             {
                 filesAnalyzed[item] = AnalyzeFile(item, dependencies);
-            }
+            });
             return filesAnalyzed;
         }
-        public static Dictionary<string,bool> AnalyzeFile(string fullFilePath, IEnumerable<string> dependencies)
+        public static ConcurrentDictionary<string,bool> AnalyzeFile(string fullFilePath, IEnumerable<string> dependencies)
         {
             string fileName = Path.GetFileName(fullFilePath);
             string csvFileName = fileName + ".csv";
@@ -69,7 +71,7 @@ namespace ESTEK_DependencyChecker
             var fileToString = sr.ReadToEnd();
             sr.Close();
 
-            Dictionary<string, bool> dic = new Dictionary<string, bool>(dependencies.Count());
+            ConcurrentDictionary<string, bool> dic = new ConcurrentDictionary<string, bool>();
             // initialize the dependecies with false values
             foreach (var item in dependencies)
             {

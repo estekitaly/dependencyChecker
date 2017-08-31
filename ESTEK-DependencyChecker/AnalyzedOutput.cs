@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ namespace ESTEK_DependencyChecker
 {
     public partial class AnalyzedOutput : Form
     {
-        public AnalyzedOutput(Dictionary<string,Dictionary<string,bool>> analyzedFiles)
+        public AnalyzedOutput(ConcurrentDictionary<string, ConcurrentDictionary<string,bool>> analyzedFiles)
         {
             InitializeComponent();
             List<AnalyzedDependencyEntry> list = new List<AnalyzedDependencyEntry>();
