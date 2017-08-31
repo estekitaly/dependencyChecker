@@ -92,7 +92,7 @@ namespace ESTEK_DependencyChecker
 
         private void ofdFilesToAnalyze_FileOk(object sender, CancelEventArgs e)
         {
-            txtFilesToAnalyze.Text += string.Join(System.Environment.NewLine, ofdFilesToAnalyze.FileNames);
+            txtFilesToAnalyze.Text += System.Environment.NewLine + string.Join(System.Environment.NewLine, ofdFilesToAnalyze.FileNames);
         }
 
         private void Form1_Load(object sender, EventArgs e)
