@@ -69,7 +69,12 @@ namespace ESTEK_DependencyChecker
             var fileToString = sr.ReadToEnd();
             sr.Close();
 
-            Dictionary<string, bool> dic = new Dictionary<string, bool>();
+            Dictionary<string, bool> dic = new Dictionary<string, bool>(dependencies.Count());
+            // initialize the dependecies with false values
+            foreach (var item in dependencies)
+            {
+                dic[item] = false;
+            }
             var fileLines = fileToString.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var item in fileLines)
             {

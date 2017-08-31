@@ -58,7 +58,9 @@ namespace ESTEK_DependencyChecker
                             MessageBox.Show(Properties.Resources.ERROR_FILES_DONT_EXIST+ System.Environment.NewLine + string.Join(System.Environment.NewLine, invalidFiles));
                         }
                         // now we can start the calls to the dependends executable
-                        DependencyWalkerWrapper.AnalyzeFiles(validFiles, dependenciesToCheck);
+                        var analyzedOutput = new AnalyzedOutput(DependencyWalkerWrapper.AnalyzeFiles(validFiles, dependenciesToCheck));
+                        analyzedOutput.MdiParent = this.MdiParent;
+                        analyzedOutput.Show();
                     }
                 }
                 else
